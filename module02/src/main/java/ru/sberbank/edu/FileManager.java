@@ -15,14 +15,6 @@ import java.util.List;
  * при создании читает переданный файл в List
  */
 public class FileManager implements Statistic {
-    public List<String> getContentList() {
-        return contentList;
-    }
-
-    public void setContentList(List<String> contentList) {
-        this.contentList = contentList;
-    }
-
     private String filename;
     private List<String> contentList = new ArrayList<>();
 
@@ -32,7 +24,6 @@ public class FileManager implements Statistic {
         this.filename = filename;
         readTextFile();
     }
-
     public String getFilename() {
         return filename;
     }
@@ -40,16 +31,18 @@ public class FileManager implements Statistic {
     public void setFilename(String filename) {
         this.filename = filename;
     }
-
+    public List<String> getContentList() {
+        return contentList;
+    }
+    public void setContentList(List<String> contentList) {
+        this.contentList = contentList;
+    }
     public void readTextFile() {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filename));
-
-            while (br.ready()) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename));){
+             while (br.ready()) {
                 String data = br.readLine();
                 contentList.add(data);
             }
-            br.close();
         }
         catch (FileNotFoundException e) {
             System.out.println("Файл не существует.");
@@ -106,14 +99,12 @@ public class FileManager implements Statistic {
                 ( new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date()))
                 +".txt";
 
-        try {
-            FileWriter writer = new FileWriter(statFileName);
+        try ( FileWriter writer = new FileWriter(statFileName); ) {
             writer.write("Статистика" + System.getProperty("line.separator"));
             writer.write("Количество строк: " + lineCount + System.getProperty("line.separator"));
             writer.write("Количество пробелов: " + lineCount + System.getProperty("line.separator"));
             writer.write("Самая длинная строка: " + System.getProperty("line.separator"));
             writer.write(line + System.getProperty("line.separator"));
-            writer.close();
         }
         catch (IOException e) {
             System.out.println("Ошибка ввода вывода.");
