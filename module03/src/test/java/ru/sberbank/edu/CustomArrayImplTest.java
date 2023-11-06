@@ -11,7 +11,7 @@ class CustomArrayImplTest {
 
     CustomArrayImpl<String> listString;
     private void initTestList() {
-        listString = new CustomArrayImpl<String>();
+        listString = new CustomArrayImpl<>();
         listString.add("строка 1");
         listString.add("строка 2");
         listString.add("строка 3");
@@ -25,14 +25,14 @@ class CustomArrayImplTest {
     @Test
     void isEmpty() {
         initTestList();
-        Assertions.assertEquals(listString.isEmpty(),false);
+        assertFalse(listString.isEmpty());
     }
 
     @Test
     void add() {
       initTestList();
       listString.add("строка 4");
-      Assertions.assertEquals(listString.get(3).equals("строка 4"), true);
+        assertEquals("строка 4", listString.get(3));
     }
 
     @Test
@@ -41,7 +41,7 @@ class CustomArrayImplTest {
         String[] list2 = new String[] {"строка 4", "строка 5"};
         listString.addAll(list2);
         Assertions.assertEquals(listString.size(),5);
-        Assertions.assertEquals(listString.get(4).equals("строка 5"), true);
+        assertEquals("строка 5", listString.get(4));
     }
 
     @Test
@@ -51,7 +51,7 @@ class CustomArrayImplTest {
         aList.add("строка 4");
         aList.add("строка 5");
         listString.addAll(aList);
-        Assertions.assertEquals(listString.get(4).equals("строка 5"), true);
+        assertEquals("строка 5", listString.get(4));
     }
 
     @Test
@@ -60,20 +60,20 @@ class CustomArrayImplTest {
         String[] list2 = new String[] {"строка 4", "строка 5"};
         listString.addAll(1,list2);
         Assertions.assertEquals(listString.size(),5);
-        Assertions.assertEquals(listString.get(4).equals("строка 3"), true);
+        assertEquals("строка 3", listString.get(4));
     }
 
     @Test
     void get() {
         initTestList();
-        Assertions.assertEquals(listString.get(2).equals("строка 3"), true);
+        assertEquals("строка 3", listString.get(2));
     }
 
     @Test
     void set() {
         initTestList();
         listString.set(1,"строка 4");
-        Assertions.assertEquals(listString.get(1).equals("строка 4"), true);
+        assertEquals("строка 4", listString.get(1));
     }
 
     @Test
@@ -81,7 +81,7 @@ class CustomArrayImplTest {
         initTestList();
         listString.remove(1);
         Assertions.assertEquals(listString.size(),2);
-        Assertions.assertEquals(listString.get(1).equals("строка 3"), true);
+        assertEquals("строка 3", listString.get(1));
     }
 
     @Test
@@ -89,14 +89,14 @@ class CustomArrayImplTest {
         initTestList();
         listString.remove( "строка 1");
         Assertions.assertEquals(listString.size(),2);
-        Assertions.assertEquals(listString.get(1).equals("строка 3"), true);
+        assertEquals("строка 3", listString.get(1));
     }
 
     @Test
     void contains() {
         initTestList();
-        Assertions.assertEquals(listString.contains("строка 1"),true);
-        Assertions.assertEquals(listString.contains("строка 4"),false);
+        assertTrue(listString.contains("строка 1"));
+        assertFalse(listString.contains("строка 4"));
     }
 
     @Test
@@ -123,15 +123,15 @@ class CustomArrayImplTest {
     void reverse() {
         initTestList();
         listString.reverse();
-        Assertions.assertEquals(listString.get(2).equals("строка 1"), true);
-        Assertions.assertEquals(listString.get(0).equals("строка 3"), true);
+        assertEquals("строка 1", listString.get(2));
+        assertEquals("строка 3", listString.get(0));
     }
 
     @Test
     void toArray() {
         initTestList();
         Object[] arr = listString.toArray();
-        Assertions.assertEquals(arr[1].equals("строка 2"), true);
+        assertEquals("строка 2", arr[1]);
     }
 
     @Test

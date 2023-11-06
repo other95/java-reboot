@@ -6,7 +6,7 @@ import java.util.Collection;
  * Простой массив чтобы сохранять разные объекты
  * @param <T>
  */
-public class CustomArrayImpl<T> implements CustomArray {
+public class CustomArrayImpl<T> implements CustomArray<T> {
 
     private int capacity = 2;
     final private int enlargeCapacity = 1;
@@ -24,29 +24,29 @@ public class CustomArrayImpl<T> implements CustomArray {
 
     /***
      * Добавить один эелемент
-     * @param item
-     * @return
+     * @param item - добавляемый объект
+     * @return - результат
      */
     @Override
-    public boolean add(Object item) {
+    public boolean add(T item) {
 
         if (numberOfItems == this.capacity) {
             ensureCapacity(this.capacity + enlargeCapacity);
         }
-        items[numberOfItems] = (T)item;
+        items[numberOfItems] = item;
         numberOfItems++;
         return true;
     }
 
     /***
      * Добавить все эелементы
-     * @param items
-     * @return
+     * @param items -добавляемые объекты
+     * @return - результат
      * @throws IllegalArgumentException если паратетр items  это null
      */
     @Override
-    public boolean addAll(Object[] items) throws IllegalArgumentException {
-        for (Object item:items) {
+    public boolean addAll(T[] items) throws IllegalArgumentException {
+        for (T item:items) {
             this.add(item);
         }
         return true;
@@ -54,13 +54,13 @@ public class CustomArrayImpl<T> implements CustomArray {
 
     /***
      * Добавить все эелементы
-     * @param items
-     * @return
+     * @param items - добавляемая коллекция
+     * @return - результат
      * @throws IllegalArgumentException если параметр items  это null
      */
     @Override
-    public boolean addAll(Collection items) throws IllegalArgumentException {
-        for (Object item:items) {
+    public boolean addAll(Collection<T> items) throws IllegalArgumentException {
+        for (T item:items) {
             this.add(item);
         }
         return true;
@@ -74,23 +74,18 @@ public class CustomArrayImpl<T> implements CustomArray {
      * @throws IllegalArgumentException       if parameter items is null
      */
     @Override
-    public boolean addAll(int index, Object[] items) throws ArrayIndexOutOfBoundsException,IllegalArgumentException {
-        // TODO : Реализовать
+    public boolean addAll(int index, T[] items) throws ArrayIndexOutOfBoundsException,IllegalArgumentException {
         T[] arr = (T[])(new Object[this.capacity + items.length]);
         int j = 0;
         for (int i = 0; i< this.items.length; i++) {
-            if ( i != index){
-                arr[j] = this.items[i];
-                j++;
-            }
-            else {
-                for (int k = 0; k<items.length; k++) {
-                    arr[j] = (T)items[k];
+            if (i == index) {
+                for (T item : items) {
+                    arr[j] = item;
                     j++;
                 }
-                arr[j] = this.items[i];
-                j++;
             }
+            arr[j] = this.items[i];
+            j++;
         }
         this.capacity = this.capacity + items.length;
         this.numberOfItems = j;
@@ -104,7 +99,7 @@ public class CustomArrayImpl<T> implements CustomArray {
      * @throws ArrayIndexOutOfBoundsException if index is out of bounds
      */
     @Override
-    public Object get(int index) throws ArrayIndexOutOfBoundsException {
+    public T get(int index) throws ArrayIndexOutOfBoundsException {
         return this.items[index];
     }
 
@@ -115,9 +110,9 @@ public class CustomArrayImpl<T> implements CustomArray {
      * @throws ArrayIndexOutOfBoundsException if index is out of bounds
      */
     @Override
-    public Object set(int index, Object item) throws ArrayIndexOutOfBoundsException {
+    public T set(int index, T item) throws ArrayIndexOutOfBoundsException {
         T oldValue = this.items[index];
-        this.items[index] = (T)item;
+        this.items[index] = item;
         return oldValue;
     }
 
@@ -146,7 +141,7 @@ public class CustomArrayImpl<T> implements CustomArray {
      * @return истина если эдемент удален
      */
     @Override
-    public boolean remove(Object item) {
+    public boolean remove(T item) {
         T[] arr = (T[])(new Object[this.numberOfItems-1]);
         int j = 0;
         boolean isRemoved = false;
@@ -170,8 +165,8 @@ public class CustomArrayImpl<T> implements CustomArray {
      * @return истина или ложь
      */
     @Override
-    public boolean contains(Object item) {
-        for (Object element:items) {
+    public boolean contains(T item) {
+        for (T element:items) {
             if (element.equals(item)) {
                 return true;
             }
@@ -185,7 +180,7 @@ public class CustomArrayImpl<T> implements CustomArray {
      * @return индекс элемента или -1 если массив не содержит эелемент
      */
     @Override
-    public int indexOf(Object item) {
+    public int indexOf(T item) {
         for (int i = 0; i<this.items.length;i++) {
             if (this.items[i].equals(item)) {
                 return i;
@@ -210,7 +205,7 @@ public class CustomArrayImpl<T> implements CustomArray {
     }
     /***
      * Получить текущую вместимость
-     * @return
+     * @return - вместимость
      */
     @Override
     public int getCapacity() {
@@ -231,29 +226,27 @@ public class CustomArrayImpl<T> implements CustomArray {
 
     /***
      * Получить копию CustomArrayImpl в виде массива
-     * @return
+     * @return - массив
      */
     @Override
     public Object[] toArray() {
         Object[] arr = new Object[this.numberOfItems];
-        for (int i = 0; i< this.numberOfItems;i++) {
-            arr[i] = this.items[i];
-        }
+        System.arraycopy(this.items, 0, arr, 0, this.numberOfItems);
         return arr;
     }
 
     /***
      * Получить содержимое в формате '[ element1 element2 ... elenentN ] или [ ] если массив пуст.
-     * @return
+     * @return - сторка в нужном формате
      */
     @Override
     public String toString() {
-        String result = "[";
+        StringBuilder result = new StringBuilder("[");
         for (int i = 0; i< this.numberOfItems; i++) {
-            result = result + " "+ this.items[i] ;
+            result.append(" ").append(this.items[i]);
         }
-        result = result + " ]";
-        return  result;
+        result.append(" ]");
+        return result.toString();
     }
 
 }
