@@ -10,7 +10,7 @@ class TravelServiceTest {
     void add() {
         TravelService travelService = new TravelService();
         travelService.add( new CityInfo("Москва", new GeoPosition("55(45'132'')","37(36'936'')")));
-        assertEquals( travelService.citiesNames().get(0),"Москва"); ;
+        assertEquals( travelService.citiesNames().get(0),"Москва");
     }
 
     @Test

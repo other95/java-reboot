@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * Модуль 05 Задача 01
  * Реализация Сервиса путешествий по городам
+ *
  */
 public class App 
 {
@@ -23,6 +24,8 @@ public class App
        System.out.println("Расстояние между Петербургом и Москвой :" +travelService.getDistance("Санкт-Петербург","Москва" ));
 
        List<String> list = travelService.getCitiesNear("Новгород", 520 );
+
+       System.out.println("Города рядом с Новгородом в радиусе 520 км: " + list);
 
     }
 }

@@ -44,7 +44,7 @@ public class GeoPosition {
     /***
      * Получить координату в радианах
      * @param inDegrees - координата в градусах
-     * @return
+     * @return -координата в радианах
      */
     private Double getDegrees(String inDegrees) {
         String regex_format = "\\d{1,2}(\\(\\d{1,2}\'\\d{1,3}\'\'\\))?";
