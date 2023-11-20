@@ -2,6 +2,7 @@ package ru.sberbank.edu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Travel Service.
@@ -11,6 +12,8 @@ public class TravelService {
     // do not change type
     private final List<CityInfo> cities = new ArrayList<>();
 
+    static final int EARTH_RADIUS = 6372795;
+
     /**
      * Append city info.
      *
@@ -18,46 +21,92 @@ public class TravelService {
      * @throws IllegalArgumentException if city already exists
      */
     public void add(CityInfo cityInfo) {
-        // do something
+        if ( cities.stream()
+                .anyMatch(cityInfoStream -> cityInfo.getName().equals(cityInfoStream.getName()))) {
+            System.out.println("Город "+cityInfo.getName()+" уже существует в списке городов");
+            return;
+        }
+
+        cities.add(cityInfo);
     }
 
     /**
-     * remove city info.
+     * Удалить город из списка.
      *
-     * @param cityName - city name
-     * @throws IllegalArgumentException if city doesn't exist
+     * @param cityName - Название города
+     * @throws IllegalArgumentException Если город нге существует
      */
-    public void remove(String cityName) {
-        // do something
+    public void remove(String cityName) throws IllegalArgumentException {
+
+        cities.removeIf( cityInfo -> cityInfo.getName().equals(cityName) );
+
     }
 
     /**
-     * Get cities names.
+     * Получить список названий городов.
      */
     public List<String> citiesNames() {
-        return null;
+        List<String> list = new ArrayList<>();
+        cities.forEach( ( CityInfo cityInfo) -> list.add(cityInfo.getName()));
+        return list;
     }
 
     /**
-     * Get distance in kilometers between two cities.
-     * https://www.kobzarev.com/programming/calculation-of-distances-between-cities-on-their-coordinates/
+     * Получить расстояние между двумя городами в километрах.
      *
-     * @param srcCityName  - source city
-     * @param destCityName - destination city
-     * @throws IllegalArgumentException if source or destination city doesn't exist.
+     * @param srcCityName  - город откуда
+     * @param destCityName - город куда
+     * @throws IllegalArgumentException если какого нибудь из городов не существует.
      */
-    public int getDistance(String srcCityName, String destCityName) {
-        return 0;
+    public int getDistance(String srcCityName, String destCityName) throws IllegalArgumentException{
+
+        CityInfo srcCityInfo = cities.stream()
+                .filter(cityInfo -> srcCityName.equals(cityInfo.getName()))
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
+
+        CityInfo destCityInfo = cities.stream()
+                .filter(cityInfo -> destCityName.equals(cityInfo.getName()))
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
+
+        // косинусы и синусы широт и разницы долгот
+        double cl1 = Math.cos(srcCityInfo.getPosition().getLatitude());
+        double sl1 = Math.sin(srcCityInfo.getPosition().getLatitude());
+
+        double cl2 = Math.cos(destCityInfo.getPosition().getLatitude());
+        double sl2 = Math.sin(destCityInfo.getPosition().getLatitude());
+        double delta = srcCityInfo.getPosition().getLongitude() - destCityInfo.getPosition().getLongitude() ;
+        double cdelta = Math.cos(delta);
+        double sdelta = Math.sin(delta);
+
+        // вычисления длины большого круга
+        double y = Math.sqrt( Math.pow(cl2 * sdelta,2) + Math.pow(cl1 * sl2 - sl1 * cl2 * cdelta,2));
+        double x = sl1 * sl2 + cl1 * cl2 * cdelta;
+
+        double ad = Math.atan2(y, x);
+        double dist = ad * EARTH_RADIUS/1000.0;
+
+        return (int)Math.ceil(dist);
     }
 
     /**
-     * Get all cities near current city in radius.
+     * Получить все города рядом с выбранным городе в указанном радиусе
      *
-     * @param cityName - city
-     * @param radius   - radius in kilometers for search
-     * @throws IllegalArgumentException if city with cityName city doesn't exist.
+     * @param cityName - город
+     * @param radius   - радиус поиска в километрах
+     * @throws IllegalArgumentException если города не существует.
      */
-    public List<String> getCitiesNear(String cityName, int radius) {
-        return null;
+    public List<String> getCitiesNear(String cityName, int radius) throws IllegalArgumentException {
+
+        List<String> list = new ArrayList<>();
+        cities.forEach( ( CityInfo cityInfo) -> {
+            if (!Objects.equals(cityName, cityInfo.getName()) &&
+                    getDistance(cityName, cityInfo.getName() ) <= radius ) {
+                list.add(cityInfo.getName());
+            }
+        } );
+        return list;
+
     }
 }
