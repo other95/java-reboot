@@ -21,7 +21,7 @@ public class CarServiceImpl implements CarService {
      * Добавить машину
      * @param id идентификатор
      * @param model модель
-     * @throws SQLException
+     * @throws SQLException - исключенгие SQLException
      */
     @Override
     public void addCar(String id, String model) throws SQLException {
@@ -41,7 +41,7 @@ public class CarServiceImpl implements CarService {
      * Редатировать модель машины
      * @param id идентификатор
      * @param newModel ноавя модель
-     * @throws SQLException
+     * @throws SQLException - исключенгие SQLException
      */
     @Override
     public void editModel(String id, String newModel) throws SQLException {

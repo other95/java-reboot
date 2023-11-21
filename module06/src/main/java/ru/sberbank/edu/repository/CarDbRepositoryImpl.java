@@ -48,7 +48,7 @@ public class CarDbRepositoryImpl implements CarRepository {
      * Создать или изменить машину
      * @param car - машина
      * @return - измененная машина
-     * @throws SQLException
+     * @throws SQLException - исключенгие SQLException
      */
     @Override
     public Car createOrUpdate(Car car) throws SQLException {
@@ -69,7 +69,7 @@ public class CarDbRepositoryImpl implements CarRepository {
      * найти машину
      * @param id идентификатор
      * @return - машина
-     * @throws SQLException
+     * @throws SQLException - исключенгие SQLException
      */
     @Override
     public Optional<Car> findById(String id) throws SQLException {
@@ -110,7 +110,7 @@ public class CarDbRepositoryImpl implements CarRepository {
      * Количество машин с заданным идентификатором
      * @param id идентификатор
      * @return количество
-     * @throws SQLException
+     * @throws SQLException - исключенгие SQLException
      */
     private int countRowsById(String id) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM car where id = ?");
@@ -148,7 +148,7 @@ public class CarDbRepositoryImpl implements CarRepository {
 
     /***
      * Добавить все машины
-     * @param tCollection
+     * @param tCollection список машин
      * @return - Набор машин
      */
     @Override
@@ -161,8 +161,7 @@ public class CarDbRepositoryImpl implements CarRepository {
         catch (SQLException e) {
             return  null;
         }
-        Set<Car> set = findAll();
-        return set;
+        return findAll();
     }
 
     /***
