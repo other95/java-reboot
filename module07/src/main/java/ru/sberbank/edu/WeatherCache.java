@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class WeatherCache {
 
-    private Object monitor = new Object();
     private final Map<String, WeatherInfo> cache = new HashMap<>();
     private final WeatherProvider weatherProvider;
 
@@ -28,8 +27,8 @@ public class WeatherCache {
      * @param city - город
      * @return актуальная информация о погоде
      */
-    public WeatherInfo getWeatherInfo(String city) {
-        synchronized ( monitor ) {
+    public synchronized WeatherInfo getWeatherInfo(String city) {
+
             WeatherInfo weatherInfo;
             weatherInfo = cache.get(city);
 
@@ -38,15 +37,14 @@ public class WeatherCache {
                 if (weatherInfo != null) {
                     cache.put(city, weatherInfo);
                 }
-            } else if (weatherInfo.getExpiryTime().compareTo(LocalDateTime.now()) < 0) {
-                cache.remove(city);
+            } else if (weatherInfo.getExpiryTime().isBefore(LocalDateTime.now())) {
+                removeWeatherInfo(city);
                 weatherInfo = weatherProvider.get(city);
                 if (weatherInfo != null) {
                     cache.put(city, weatherInfo);
                 }
             }
             return weatherInfo;
-        }
     }
 
     /**

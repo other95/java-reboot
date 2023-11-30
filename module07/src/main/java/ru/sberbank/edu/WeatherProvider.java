@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.http.WebSocket;
-
 public class WeatherProvider {
 
     //    private RestTemplate restTemplate = null;
@@ -29,11 +27,10 @@ public class WeatherProvider {
             ObjectMapper oMapper = new ObjectMapper();
             OpenWeatherResponse openWeatherResponse = oMapper.readValue(response.getBody(), OpenWeatherResponse.class);
 
-            WeatherInfo weatherInfo = new WeatherInfo(openWeatherResponse);
-            return weatherInfo;
+            return (new WeatherInfo(openWeatherResponse);
         }
         catch (Exception ex) {
-         return  null;
+            return null;
         }
 
 

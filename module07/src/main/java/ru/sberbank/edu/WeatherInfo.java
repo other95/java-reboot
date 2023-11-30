@@ -49,8 +49,8 @@ public class WeatherInfo {
     private LocalDateTime expiryTime;
 
     /***
-     * конструктор с параметром - класс структура ответа от http://api.openweathermap.org
-      * @param openWeatherResponse
+     * конструктор с параметром - класс структура ответа от api.openweathermap.org
+      * @param openWeatherResponse - структура ответа
      */
     public WeatherInfo(OpenWeatherResponse openWeatherResponse) {
         this.city = openWeatherResponse.getName();
