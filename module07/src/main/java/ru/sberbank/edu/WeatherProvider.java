@@ -27,7 +27,7 @@ public class WeatherProvider {
             ObjectMapper oMapper = new ObjectMapper();
             OpenWeatherResponse openWeatherResponse = oMapper.readValue(response.getBody(), OpenWeatherResponse.class);
 
-            return (new WeatherInfo(openWeatherResponse);
+            return (new WeatherInfo(openWeatherResponse));
         }
         catch (Exception ex) {
             return null;
