@@ -57,7 +57,7 @@ public class WeatherInfo {
         this.shortDescription = openWeatherResponse.getWeather()[0].getMain();
         this.description = openWeatherResponse.getWeather()[0].getDescription();
         this.temperature = openWeatherResponse.getMain().getTemp();
-        this.feelsLikeTemperature = openWeatherResponse.getMain().getFeels_like();
+        this.feelsLikeTemperature = openWeatherResponse.getMain().getFeelsLike();
         this.windSpeed = openWeatherResponse.getWind().getSpeed();
         this.pressure = openWeatherResponse.getMain().getPressure();
         this.expiryTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(openWeatherResponse.getDt()*1000+FIVE_MINUTES),

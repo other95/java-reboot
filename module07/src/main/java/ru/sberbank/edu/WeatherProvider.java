@@ -24,12 +24,14 @@ public class WeatherProvider {
 
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
             ObjectMapper oMapper = new ObjectMapper();
-            OpenWeatherResponse openWeatherResponse = oMapper.readValue(response.getBody(), OpenWeatherResponse.class);
+            OpenWeatherResponse openWeatherResponse = oMapper.readValue(response.getBody().replace("feels_like","feelsLike"), OpenWeatherResponse.class);
 
             return (new WeatherInfo(openWeatherResponse));
         }
         catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
 

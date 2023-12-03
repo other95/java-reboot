@@ -50,7 +50,7 @@ public class WeatherCache {
     /**
      * Удалить информацию о погоде из кеэша
      **/
-    public void removeWeatherInfo(String city) {
+    public synchronized void removeWeatherInfo(String city) {
         cache.remove(city);
     }
 }
