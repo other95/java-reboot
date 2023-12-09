@@ -62,7 +62,7 @@ public class FinancialServlet extends HttpServlet
         }
     }
 
-    private void parseParameters( HttpServletRequest req ) throws NumberFormatException,Exception,TooSmallAmountException {
+    private void parseParameters( HttpServletRequest req ) throws Exception {
         try {
             percentage = Double.parseDouble(req.getParameter("percentage"));
             sum = Double.parseDouble(req.getParameter("sum"));
