@@ -1,40 +1,60 @@
 package ru.sberbank.edu;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Weather cache.
  */
-public class WeatherCache {
+public class WeatherCache implements CommonWeatherCache
+{
 
     private final Map<String, WeatherInfo> cache = new HashMap<>();
     private WeatherProvider weatherProvider;
 
-    /**
-     * Default constructor.
-     */
-    public WeatherCache() {
+    @Autowired
+    public void setWeatherProvider(WeatherProvider weatherProvider) {
+        this.weatherProvider = weatherProvider;
     }
 
     /**
      * Get ACTUAL weather info for current city or null if current city not found.
-     * If cache doesn't contain weather info OR contains NOT ACTUAL info then we should download info
-     * If you download weather info then you should set expiry time now() plus 5 minutes.
-     * If you can't download weather info then remove weather info for current city from cache.
+     * Если кэш не содержит информацию о погоде ИЛИ содержит НЕ АКТУАЛЬНУЮ информацию то мы должны скачать информацию
+     * Если ты скачал информацию о погоде то должен установить время expiry now() плюс 5 минут.
+     * Если не удается скачать информацию о погоде то удалить информацию о погоде для текущего города из кэша.
      *
-     * @param city - city
-     * @return actual weather info
+     * @param city - город
+     * @return актуальная информация о погоде
      */
-    public WeatherInfo getWeatherInfo(String city) {
-        // should be implemented
-        return null;
+    @Override
+    public synchronized WeatherInfo getWeatherInfo(String city) {
+
+        WeatherInfo weatherInfo;
+        weatherInfo = cache.get(city);
+
+        if (weatherInfo == null) {
+            weatherInfo = weatherProvider.get(city);
+            if (weatherInfo != null) {
+                cache.put(city, weatherInfo);
+            }
+        } else if (weatherInfo.getExpiryTime().isBefore(LocalDateTime.now())) {
+            removeWeatherInfo(city);
+            weatherInfo = weatherProvider.get(city);
+            if (weatherInfo != null) {
+                cache.put(city, weatherInfo);
+            }
+        }
+        return weatherInfo;
     }
 
     /**
-     * Remove weather info from cache.
+     * Удалить информацию о погоде из кеэша
      **/
-    public void removeWeatherInfo(String city) {
-        // should be implemented
+    @Override
+    public synchronized void removeWeatherInfo(String city) {
+        cache.remove(city);
     }
 }
