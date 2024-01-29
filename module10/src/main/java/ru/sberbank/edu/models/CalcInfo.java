@@ -4,26 +4,32 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.NumberFormat;
 
 public class CalcInfo {
 
     //private final double MIN_SUM = 50000.0;
-    @NotEmpty(message = "Заполните поле процент")
-    @Min(value = 1, message = "Процент должен быть больше " + 0)
-    private Integer percentage;
-    @NotEmpty(message = "Заполните поле сумма")
+
+    @NotNull(message = "Заполните поле сумма")
     @Min(value = 50000, message = "Сумма не должна быть менее " + 50000)
     private Integer sum;
-    @NotEmpty(message = "Заполните поле срок")
-    @Min(value = 1, message = "Срок должен быть больше " + 0)
+    @NotNull(message = "Заполните поле процент")
+    @Min(value = 1, message = "Процент должен быть больше 0" )
+    private Integer percentage;
+    @NotNull(message = "Заполните поле срок")
+    @Min(value = 1, message = "Срок должен быть больше 0" )
     private Integer years;
     private Integer result;
 
+    // Здесь обязательно должен быть безаргументый конструктор (не удалять комментарий!)
+    public CalcInfo() {
+
+    }
 
     public CalcInfo(int sum, int percentage,  int years) {
-        this.percentage = percentage;
         this.sum = sum;
+        this.percentage = percentage;
         this.years = years;
     }
 

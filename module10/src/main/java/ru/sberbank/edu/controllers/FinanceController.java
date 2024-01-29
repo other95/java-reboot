@@ -37,16 +37,18 @@ public class FinanceController {
 //    }
 
     @GetMapping("/finance")
-    public String finance(Model model) {
-        model.addAttribute("calcInfo", new CalcInfo(0,0,0));
+    public String finance(CalcInfo calcInfo, Model model) {
+        model.addAttribute("calcInfo", calcInfo );
         return "profitability";
     }
 
     @PostMapping("/calculate")
-    public String calculate(CalcInfo calcInfo) {
-//        if (result.hasErrors()) {
-//            return "profitability";
-//        }
+    public String calculate(@ModelAttribute("calcInfo") @Valid CalcInfo calcInfo, Model model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "profitability";
+        }
+        calcInfo.calcResult();
+        model.addAttribute("result", calcInfo.getResult());
 
         return "result";
     }

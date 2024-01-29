@@ -1,7 +1,11 @@
-<%@page isELIgnored="false" %>
-<%@ page language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
 <body>
-Calculation result :  !!!
+Calculation result :  <p th:text="${result}"></p>
+<hr>
+<center><a href="/finance">Назад</a></center>
 </body>
 </html>
