@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
@@ -31,6 +32,8 @@ public class WebApplicationConfig implements WebMvcConfigurer {
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 
@@ -42,10 +45,21 @@ public class WebApplicationConfig implements WebMvcConfigurer {
         return templateEngine;
     }
 
+//    @Bean
+//    public ThymeleafViewResolver viewResolver() {
+//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+//        viewResolver.setTemplateEngine(templateEngine());
+//        viewResolver.setCharacterEncoding("UTF-8");
+//        viewResolver.setOrder(1);
+//        return viewResolver;
+//    }
+
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
+        resolver.setCharacterEncoding("UTF-8");
+        resolver.setOrder(1);
         registry.viewResolver(resolver);
     }
 }

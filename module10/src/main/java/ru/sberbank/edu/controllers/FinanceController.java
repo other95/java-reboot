@@ -12,7 +12,7 @@ import ru.sberbank.edu.models.CalcInfo;
 
 @Controller
 //@RequestMapping(value="/finance")
-public class FinanceController {
+public class  FinanceController {
 
     @GetMapping("/hello")
     public String sayHello() {
@@ -43,7 +43,7 @@ public class FinanceController {
     }
 
     @PostMapping("/calculate")
-    public String calculate(@ModelAttribute("calcInfo") @Valid CalcInfo calcInfo, Model model, BindingResult bindingResult) {
+    public String calculate(@ModelAttribute("calcInfo") @Valid CalcInfo calcInfo, BindingResult bindingResult, Model model ) {
         if (bindingResult.hasErrors()) {
             return "profitability";
         }
