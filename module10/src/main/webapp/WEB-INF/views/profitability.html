@@ -8,15 +8,12 @@
     <form th:action="@{/calculate}" method="post" th:object="${calcInfo}"> Amount at the time of opening:
         <input type="text" name="sum" th:field="*{sum}"/>
         <div th:if="#{fields.hasErrors('sum')}" th:errors="*{sum}" style="color: red"></div>
-        <!--        <div style="color:red" th:if="${#fields.hasErrors('sum') }" th:errors = *{sum}">Name error</div>-->
         <br/> The interest rate:
         <input type="text" name="percentage" th:field="*{percentage}"/>
         <div th:if="#{fields.hasErrors('percentage')}" th:errors="*{percentage}" style="color: red"></div>
-        <!--        <div style="color:red" th:if="${#fields.hasErrors('percentage') }" th:errors = *{percentage}">Name error</div>-->
         <br/> Number of years:
         <input type="text" name="years" th:field="*{years}"/>
         <div th:if="#{fields.hasErrors('years')}" th:errors="*{years}" style="color: red"></div>
-        <!--        <div style="color:red" th:if="${#fields.hasErrors('years') }" th:errors = *{years}">Name error</div>-->
         <br/> <input type="submit" value="calculate"/></form>
 </div>
 </body>

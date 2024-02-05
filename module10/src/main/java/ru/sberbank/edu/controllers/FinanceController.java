@@ -11,30 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.sberbank.edu.models.CalcInfo;
 
 @Controller
-//@RequestMapping(value="/finance")
 public class  FinanceController {
 
     @GetMapping("/hello")
     public String sayHello() {
         return "hello";
     }
-
-//    @GetMapping("/finance")
-//    public ModelAndView info() {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("/profitability.html");
-//        return modelAndView;
-//    }
-
-//    @PostMapping("/finance")
-//    public ModelAndView calculat(@ModelAttribute CalcInfo calcInfo ) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("/result.html");
-//        calcInfo.calcResult();
-//        modelAndView.addObject("calcInformation", calcInfo);
-//
-//        return modelAndView;
-//    }
 
     @GetMapping("/finance")
     public String finance(CalcInfo calcInfo, Model model) {

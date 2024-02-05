@@ -1,18 +1,15 @@
 package ru.sberbank.edu.models;
 
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 
 import jakarta.validation.constraints.NotNull;
-import org.springframework.format.annotation.NumberFormat;
 
 public class CalcInfo {
 
-    //private final double MIN_SUM = 50000.0;
+    private static final Integer MIN_SUM = 50000;
 
     @NotNull(message = "Заполните поле сумма")
-    @Min(value = 50000, message = "Сумма не должна быть менее " + 50000)
+    @Min(value = MIN_SUM, message = "Сумма не должна быть менее 50000")
     private Integer sum;
     @NotNull(message = "Заполните поле процент")
     @Min(value = 1, message = "Процент должен быть больше 0" )
