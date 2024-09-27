@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body><h1>Deposit Profitability Calculator</h1>
+<div class="form">
+    <form th:action="@{/calculate}" method="post" th:object="${calcInfo}"> Amount at the time of opening:
+        <input type="text" name="sum" th:field="*{sum}"/>
+        <div th:if="#{fields.hasErrors('sum')}" th:errors="*{sum}" style="color: red"></div>
+        <br/> The interest rate:
+        <input type="text" name="percentage" th:field="*{percentage}"/>
+        <div th:if="#{fields.hasErrors('percentage')}" th:errors="*{percentage}" style="color: red"></div>
+        <br/> Number of years:
+        <input type="text" name="years" th:field="*{years}"/>
+        <div th:if="#{fields.hasErrors('years')}" th:errors="*{years}" style="color: red"></div>
+        <br/> <input type="submit" value="calculate"/></form>
+</div>
+</body>
+</html>
